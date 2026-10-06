@@ -1,7 +1,20 @@
 /* See LICENSE file for copyright and license details. */
+#include <X11/XF86keysym.h>
+//Volumes 
+
+static const char *upvol[] = { "wpctl", "set-volume", "-l", "1.0", "@DEFAULT_AUDIO_SINK@", "5%+", NULL };
+static const char *downvol[] = { "wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "5%-", NULL };
+static const char *mutevol[] = { "wpctl", "set-mute", "@DEFAULT_AUDIO_SINK@", "toggle", NULL };
+
+// Brightness
+
+static const char *brightup[] = { "brightnessctl", "set", "5%+", NULL };
+static const char *brightdown[] = { "brightnessctl", "set", "5%-", NULL };
+
 
 /* appearance */
-static const unsigned int borderpx  = 2;        /* border pixel of windows */
+static const unsigned int gappx = 5;
+static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
@@ -34,7 +47,7 @@ static const Rule rules[] = {
 /* layout(s) */
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 static const int refreshrate = 120;  /* refresh rate (per second) for client move/resize */
 
@@ -56,18 +69,24 @@ static const Layout layouts[] = {
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
+//
+//static const int resizehints = 0;
+
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", NULL };
-static const char *thunarcmd[] = { "thunar",  NULL };
-
+static const char *pcmanfmcmd[] = { "pcmanfm",  NULL };
+static const char *btopcmd[] = { "st", "-e", "btop", NULL };
+static const char *librewolfcmd[] = { "librewolf", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
-	{ MODKEY,                       XK_f,      spawn,          {.v = thunarcmd } },
+	{ MODKEY,                       XK_f,      spawn,          {.v =  pcmanfmcmd } },
 	{ MODKEY,	                XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,	                XK_b,	   spawn,          {.v = librewolfcmd } },
+	{ MODKEY, 			XK_Escape, spawn, 	   {.v = btopcmd } },
 	{ MODKEY,                       XK_p,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -99,6 +118,11 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ 0, 				XF86XK_AudioRaiseVolume,	 spawn, 	{.v = upvol } },
+	{ 0, 				XF86XK_AudioLowerVolume,	 spawn, 	{.v = downvol } },
+	{ 0, 				XF86XK_AudioMute, 		 spawn, 	{.v = mutevol } },
+	{ 0, 				XF86XK_MonBrightnessUp,		 spawn, 	{.v = brightup } },
+	{ 0, 				XF86XK_MonBrightnessDown,	 spawn, 	{.v = brightdown } },
 };
 
 /* button definitions */
