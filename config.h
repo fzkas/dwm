@@ -77,7 +77,7 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_bg, "-nf", col_fg, "-sb", col_accent, "-sf", col_selfg, NULL };
 static const char *termcmd[]  = { "st", NULL };
-static const char *pcmanfmcmd[] = { "pcmanfm",  NULL };
+static const char *yazicmd[] = { "st", "-e", "yazi",  NULL };
 static const char *btopcmd[] = { "st", "-e", "btop", NULL };
 static const char *firefoxcmd[] = { "firefox", NULL };
 static const char *slockcmd[] = { "slock", NULL };
@@ -87,7 +87,7 @@ static const char *obsidiancmd[] = { "obsidian", NULL};
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
-	{ MODKEY,                       XK_f,      spawn,          {.v =  pcmanfmcmd } },
+	{ MODKEY,                       XK_f,      spawn,          {.v = yazicmd } },
 	{ MODKEY,	                XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,	                XK_b,	   spawn,          {.v = firefoxcmd } },
 	{ MODKEY, 			XK_Escape, spawn, 	   {.v = btopcmd } },
